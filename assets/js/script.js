@@ -1,159 +1,165 @@
 'use strict';
 
-
-
-// element toggle function
-const elementToggleFunc = function (elem) { elem.classList.toggle("active"); }
-
-
+// function to toggle element visibility
+const toggleElementVisibility = function(elem) { 
+  elem.classList.toggle("active"); 
+};
 
 // sidebar variables
-const sidebar = document.querySelector("[data-sidebar]");
-const sidebarBtn = document.querySelector("[data-sidebar-btn]");
+const sidebarElem = document.querySelector("[data-sidebar]");
+const sidebarBtnElem = document.querySelector("[data-sidebar-btn]");
 
 // sidebar toggle functionality for mobile
-sidebarBtn.addEventListener("click", function () { elementToggleFunc(sidebar); });
-
-
+sidebarBtnElem.addEventListener("click", function () { 
+  toggleElementVisibility(sidebarElem); 
+});
 
 // testimonials variables
-const testimonialsItem = document.querySelectorAll("[data-testimonials-item]");
-const modalContainer = document.querySelector("[data-modal-container]");
-const modalCloseBtn = document.querySelector("[data-modal-close-btn]");
-const overlay = document.querySelector("[data-overlay]");
+const testimonialsItemElems = document.querySelectorAll("[data-testimonials-item]");
+const modalContainerElem = document.querySelector("[data-modal-container]");
+const modalCloseBtnElem = document.querySelector("[data-modal-close-btn]");
+const overlayElem = document.querySelector("[data-overlay]");
 
-// modal variable
-const modalImg = document.querySelector("[data-modal-img]");
-const modalTitle = document.querySelector("[data-modal-title]");
-const modalText = document.querySelector("[data-modal-text]");
+// modal variables
+const modalImgElem = document.querySelector("[data-modal-img]");
+const modalTitleElem = document.querySelector("[data-modal-title]");
+const modalTextElem = document.querySelector("[data-modal-text]");
 
-// modal toggle function
-const testimonialsModalFunc = function () {
-  modalContainer.classList.toggle("active");
-  overlay.classList.toggle("active");
-}
+// function to toggle modal visibility
+const toggleTestimonialsModalVisibility = function () {
+  modalContainerElem.classList.toggle("active");
+  overlayElem.classList.toggle("active");
+};
 
-// add click event to all modal items
-for (let i = 0; i < testimonialsItem.length; i++) {
+// add click event to all testimonials items
+for (let i = 0; i < testimonialsItemElems.length; i++) {
 
-  testimonialsItem[i].addEventListener("click", function () {
+  testimonialsItemElems[i].addEventListener("click", function () {
 
-    modalImg.src = this.querySelector("[data-testimonials-avatar]").src;
-    modalImg.alt = this.querySelector("[data-testimonials-avatar]").alt;
-    modalTitle.innerHTML = this.querySelector("[data-testimonials-title]").innerHTML;
-    modalText.innerHTML = this.querySelector("[data-testimonials-text]").innerHTML;
+    modalImgElem.src = this.querySelector("[data-testimonials-avatar]").src;
+    modalImgElem.alt = this.querySelector("[data-testimonials-avatar]").alt;
+    modalTitleElem.innerHTML = this.querySelector("[data-testimonials-title]").innerHTML;
+    modalTextElem.innerHTML = this.querySelector("[data-testimonials-text]").innerHTML;
 
-    testimonialsModalFunc();
+    toggleTestimonialsModalVisibility();
 
   });
 
 }
 
-// add click event to modal close button
-modalCloseBtn.addEventListener("click", testimonialsModalFunc);
-overlay.addEventListener("click", testimonialsModalFunc);
-
-
+// add click event to modal close button and overlay
+modalCloseBtnElem.addEventListener("click", toggleTestimonialsModalVisibility);
+overlayElem.addEventListener("click", toggleTestimonialsModalVisibility);
 
 // custom select variables
-const select = document.querySelector("[data-select]");
-const selectItems = document.querySelectorAll("[data-select-item]");
-const selectValue = document.querySelector("[data-selecct-value]");
-const filterBtn = document.querySelectorAll("[data-filter-btn]");
+const selectElem = document.querySelector("[data-select]");
+const selectItemElems = document.querySelectorAll("[data-select-item]");
+const selectValueElem = document.querySelector("[data-select-value]");
+const filterBtnElems = document.querySelectorAll("[data-filter-btn]");
 
-select.addEventListener("click", function () { elementToggleFunc(this); });
+// function to filter items
+const filterItems = function(selectedValue) {
 
-// add event in all select items
-for (let i = 0; i < selectItems.length; i++) {
-  selectItems[i].addEventListener("click", function () {
+  for (let i = 0; i < filterItemElems.length; i++) {
+
+    if (selectedValue === "all") {
+      filterItemElems[i].classList.add("active");
+    } else if (selectedValue === filterItemElems[i].dataset.category) {
+      filterItemElems[i].classList.add("active");
+    } else {
+      filterItemElems[i].classList.remove("active");
+    }
+
+  }
+
+};
+
+// function to handle select click event
+const handleSelectClick = function() {
+  toggleElementVisibility(selectElem);
+};
+
+// add event listener to select element
+selectElem.addEventListener("click", handleSelectClick);
+
+// add event listener to all select items
+for (let i = 0; i < selectItemElems.length; i++) {
+  selectItemElems[i].addEventListener("click", function () {
 
     let selectedValue = this.innerText.toLowerCase();
-    selectValue.innerText = this.innerText;
-    elementToggleFunc(select);
-    filterFunc(selectedValue);
+    selectValueElem.innerText = this.innerText;
+    toggleElementVisibility(selectElem);
+    filterItems(selectedValue);
 
   });
 }
 
 // filter variables
-const filterItems = document.querySelectorAll("[data-filter-item]");
+const filterItemElems = document.querySelectorAll("[data-filter-item]");
 
-const filterFunc = function (selectedValue) {
+// add event listener to all filter button items for large screen
+let lastClickedFilterBtn = filterBtnElems[0];
 
-  for (let i = 0; i < filterItems.length; i++) {
+for (let i = 0; i < filterBtnElems.length; i++) {
 
-    if (selectedValue === "all") {
-      filterItems[i].classList.add("active");
-    } else if (selectedValue === filterItems[i].dataset.category) {
-      filterItems[i].classList.add("active");
-    } else {
-      filterItems[i].classList.remove("active");
-    }
-
-  }
-
-}
-
-// add event in all filter button items for large screen
-let lastClickedBtn = filterBtn[0];
-
-for (let i = 0; i < filterBtn.length; i++) {
-
-  filterBtn[i].addEventListener("click", function () {
+  filterBtnElems[i].addEventListener("click", function () {
 
     let selectedValue = this.innerText.toLowerCase();
-    selectValue.innerText = this.innerText;
-    filterFunc(selectedValue);
+    selectValueElem.innerText = this.innerText;
+    filterItems(selectedValue);
 
-    lastClickedBtn.classList.remove("active");
+    lastClickedFilterBtn.classList.remove("active");
     this.classList.add("active");
-    lastClickedBtn = this;
+    lastClickedFilterBtn = this;
 
   });
 
 }
-
-
 
 // contact form variables
-const form = document.querySelector("[data-form]");
-const formInputs = document.querySelectorAll("[data-form-input]");
-const formBtn = document.querySelector("[data-form-btn]");
+const formElem = document.querySelector("[data-form]");
+const formInputElems = document.querySelectorAll("[data-form-input]");
+const formBtnElem = document.querySelector("[data-form-btn]");
 
-// add event to all form input field
-for (let i = 0; i < formInputs.length; i++) {
-  formInputs[i].addEventListener("input", function () {
+// function to handle form input event
+const handleFormInput = function () {
 
-    // check form validation
-    if (form.checkValidity()) {
-      formBtn.removeAttribute("disabled");
-    } else {
-      formBtn.setAttribute("disabled", "");
-    }
+  // check form validation
+  if (formElem.checkValidity()) {
+    formBtnElem.removeAttribute("disabled");
+  } else {
+    formBtnElem.setAttribute("disabled", "");
+  }
 
-  });
+};
+
+// add event listener to all form input fields
+for (let i = 0; i < formInputElems.length; i++) {
+  formInputElems[i].addEventListener("input", handleFormInput);
 }
 
-
-
 // page navigation variables
-const navigationLinks = document.querySelectorAll("[data-nav-link]");
-const pages = document.querySelectorAll("[data-page]");
+const navigationLinkElems = document.querySelectorAll("[data-nav-link]");
+const pageElems = document.querySelectorAll("[data-page]");
 
-// add event to all nav link
-for (let i = 0; i < navigationLinks.length; i++) {
-  navigationLinks[i].addEventListener("click", function () {
+// function to handle navigation link click event
+const handleNavLinkClick = function () {
 
-    for (let i = 0; i < pages.length; i++) {
-      if (this.innerHTML.toLowerCase() === pages[i].dataset.page) {
-        pages[i].classList.add("active");
-        navigationLinks[i].classList.add("active");
-        window.scrollTo(0, 0);
-      } else {
-        pages[i].classList.remove("active");
-        navigationLinks[i].classList.remove("active");
-      }
+  for (let i = 0; i < pageElems.length; i++) {
+
+    if (this.innerHTML.toLowerCase() === pageElems[i].dataset.page) {
+      pageElems[i].classList.add("active");
+      navigationLinkElems[i].classList.add("active");
+      window.scrollTo(0, 0);
+    } else {
+      pageElems[i].classList.remove("active");
+      navigationLinkElems[i].classList.remove("active");
     }
+  }
 
-  });
+};
+
+// add event listener to all navigation links
+for (let i = 0; i < navigationLinkElems.length; i++) {
+  navigationLinkElems[i].addEventListener("click", handleNavLinkClick);
 }

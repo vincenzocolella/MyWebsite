@@ -573,6 +573,7 @@ main {
   padding: 25px 15px;
   padding-bottom: 35px;
   overflow-x: auto;
+  
   scroll-behavior: smooth;
   overscroll-behavior-inline: contain;
   scroll-snap-type: inline mandatory;
@@ -580,6 +581,7 @@ main {
 
 .testimonials-item {
   min-width: 100%;
+  
   scroll-snap-align: center;
 }
 
