@@ -898,6 +898,19 @@ main {
   font-weight: var(--fw-300);
 }
 
+.project-item {
+  display: flex;
+  flex-wrap: wrap;
+}
+.project-item > div {
+  width: 300px;
+  margin-right: 20px; /* Optional spacing between images */
+}
+.project-item img {
+  width: 100%;
+  object-fit: cover;
+}
+
 .filter-select.active .select-icon { transform: rotate(0.5turn); }
 
 .select-list {
